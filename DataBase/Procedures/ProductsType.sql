@@ -1,4 +1,4 @@
-Create procedure ProductsType
+Create procedure ProductsType(@Type int = 0)  
 AS
 SELECT 
 	PK_Stock,
@@ -8,6 +8,6 @@ SELECT
 	Type, 
 	TypeDescription
 FROM Stock
-WHERE Type = 2
+WHERE @Type = Type and @Type != 1
 
 

@@ -13,14 +13,12 @@ namespace GOOD_HAMBURGER.DataBase
         {
             try
             {
-
-
                 using (var db = new AppDb())
                 {
                     db.Database.OpenConnection();
-                    var produtos = db.Database.SqlQuery<List<Stock>>($"Exec AllProducts");
+                    List<Stock> produtos = db.Stock.FromSql($"Exec AllProducts").ToList();
                     db.Database.CloseConnection();
-                    return (List<Stock>)produtos;
+                    return produtos;
                 };
             }
             catch (Exception ex) {
@@ -33,13 +31,12 @@ namespace GOOD_HAMBURGER.DataBase
         {
             try
             {
-
                 using (var db = new AppDb())
                 {
                     db.Database.OpenConnection();
-                    var produtos = db.Database.SqlQuery<List<Stock>>($"Exec ProductsSandwich");
+                    List<Stock> produtos = db.Stock.FromSql($"Exec ProductsSandwich {Type}").ToList();
                     db.Database.CloseConnection();
-                    return (List<Stock>)produtos;
+                    return produtos;
                 }
                 ;
             }
@@ -47,23 +44,21 @@ namespace GOOD_HAMBURGER.DataBase
             {
                 Console.WriteLine(ex.Message);
                 return null;
-            }
+            }   
         }
 
         public List<Stock> ProductsType(int Type)
         {
             try
             {
-
-
                 using (var db = new AppDb())
                 {
                     db.Database.OpenConnection();
-                    var produtos = db.Database.SqlQuery<List<Stock>>($"Exec ProductsType");
+                    List<Stock> produtos = db.Stock.FromSql($"Exec ProductsType {Type}").ToList();
                     db.Database.CloseConnection();
-                    return (List<Stock>)produtos;
+                    return produtos;
                 }
-                ;
+    ;
             }
             catch (Exception ex)
             {
@@ -72,5 +67,77 @@ namespace GOOD_HAMBURGER.DataBase
             }
         }
 
+        public List<Sales> ListOrder()
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Database.OpenConnection();
+                    List<Sales> order = db.Sales.FromSql($"Exec ListOrder ").ToList();
+                    db.Database.CloseConnection();
+                    return order;
+                }
+    ;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
+
+        public void InsertOrder(int FK_Stock_IdItem, int Quantity)
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Database.OpenConnection();
+                    db.Stock.FromSql($"Exec InsertSales{FK_Stock_IdItem},{Quantity},{123} ").ToList();
+                    db.Database.CloseConnection();
+                }
+    ;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public void UpdateOrder(int idOrder)
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Database.OpenConnection();
+                    db.Stock.FromSql($"Exec UpdateOrder {idOrder}").ToList();
+                    db.Database.CloseConnection();                    
+                }
+    ;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        public void DeleteOrder(int idOrder)
+        {
+            try
+            {
+                using (var db = new AppDb())
+                {
+                    db.Database.OpenConnection();
+                    db.Stock.FromSql($"Exec DeleteOrder {idOrder}").ToList();
+                    db.Database.CloseConnection();
+                }
+    ;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
     }
 }

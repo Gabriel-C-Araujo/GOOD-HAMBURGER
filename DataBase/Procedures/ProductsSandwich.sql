@@ -1,4 +1,4 @@
-Create procedure ProductsSandwich
+Create procedure ProductsSandwich(@Type int = 0) 
 AS
 SELECT 
 	PK_Stock,
@@ -8,6 +8,6 @@ SELECT
 	Type, 
 	TypeDescription
 FROM Stock
-WHERE Type = 1
+WHERE @Type = Type and @Type != 2
 
 
