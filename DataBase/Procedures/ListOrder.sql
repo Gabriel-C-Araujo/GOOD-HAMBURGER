@@ -1,3 +1,6 @@
-CREATE PROCEDURE ListOrder(@PK_Order int)
-AS
-SELECT * FROM Sales WHERE PK_Sales = @PK_Order
+CREATE PROCEDURE [dbo].[ListOrder]  
+AS  
+SELECT * FROM Sales   
+INNER JOIN SalesDetails on PK_Sales = FK_Sales
+  
+  

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using GOOD_HAMBURGER.DataBase;
 using Microsoft.IdentityModel.Tokens;
+using GOOD_HAMBURGER.Entity;
 
 
 namespace GOOD_HAMBURGER.Controllers
@@ -81,7 +82,7 @@ namespace GOOD_HAMBURGER.Controllers
 
         [HttpGet]
         [Route("/listorder")]
-        public IActionResult ListOrder(int Type)
+        public IActionResult ListOrder()
         {
             var request = new RequestDb();
             try
@@ -90,7 +91,7 @@ namespace GOOD_HAMBURGER.Controllers
                 order = request.ListOrder();
                 if (order.IsNullOrEmpty())
                 {
-                    BadRequest($"Error on products list. Check all registers to identify.");
+                    BadRequest($"Error on orders list. Check all registers to identify.");
                     throw new Exception();
                 }
                 ;
@@ -98,76 +99,73 @@ namespace GOOD_HAMBURGER.Controllers
             }
             catch (Exception ex)
             {
-                return NotFound($"Error on products list. Check registers with type {Type}. Exception error: {ex}");
+                return NotFound($"Error on orders list. Check registers. Exception error: {ex}");
             }
         }
 
         [HttpPost]
         [Route("/insertorder")]
-        public IActionResult InsertOrder(int Type)
+        public IActionResult InsertOrder(Sales Order)
         {
             var request = new RequestDb();
             try
             {
-                var products = new List<Entity.Stock>();
-                products = request.ProductsType(Type);
-                if (products.IsNullOrEmpty())
+                var sales = request.InsertOrder(Order);
+                if (!sales)
                 {
                     BadRequest($"Error on products list. Check all registers to identify.");
                     throw new Exception();
                 }
                 ;
-                return products == null ? NotFound() : Ok(products);
+                return sales == false ? NotFound() : Ok(sales);
             }
             catch (Exception ex)
             {
-                return NotFound($"Error on products list. Check registers with type {Type}. Exception error: {ex}");
+                return NotFound($"Error on products list. Check registers with type {Order}. Exception error: {ex}");
             }
         }
 
         [HttpPut]
         [Route("/updateorder")]
-        public IActionResult UpdateOrder(int Type)
+        public IActionResult UpdateOrder(int idOrder)
         {
             var request = new RequestDb();
             try
             {
-                var products = new List<Entity.Stock>();
-                products = request.ProductsType(Type);
-                if (products.IsNullOrEmpty())
+                var result = request.UpdateOrder(idOrder);
+                if (!result)
                 {
                     BadRequest($"Error on products list. Check all registers to identify.");
                     throw new Exception();
                 }
                 ;
-                return products == null ? NotFound() : Ok(products);
+                return result == false ? NotFound() : Ok(result);
             }
             catch (Exception ex)
             {
-                return NotFound($"Error on products list. Check registers with type {Type}. Exception error: {ex}");
+                return NotFound($"Error on products list. Check registers with type {idOrder}. Exception error: {ex}");
             }
         }
 
         [HttpDelete]
-        [Route("/productstype")]
-        public IActionResult DeleteOrder(int Type)
+        [Route("/deleteorder")]
+        public IActionResult DeleteOrder(int idOrder)
         {
             var request = new RequestDb();
             try
             {
-                var products = new List<Entity.Stock>();
-                products = request.ProductsType(Type);
-                if (products.IsNullOrEmpty())
+                var result = request.DeleteOrder(idOrder);
+                if (!result)
                 {
                     BadRequest($"Error on products list. Check all registers to identify.");
                     throw new Exception();
                 }
                 ;
-                return products == null ? NotFound() : Ok(products);
+                return result == false ? NotFound() : Ok(result);
             }
             catch (Exception ex)
             {
-                return NotFound($"Error on products list. Check registers with type {Type}. Exception error: {ex}");
+                return NotFound($"Error on products list. Check registers with type {idOrder}. Exception error: {ex}");
             }
         }
     }

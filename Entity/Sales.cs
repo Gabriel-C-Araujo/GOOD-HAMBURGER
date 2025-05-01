@@ -1,12 +1,15 @@
-﻿namespace GOOD_HAMBURGER.Entity
+﻿using System.Text.Json.Serialization;
+
+namespace GOOD_HAMBURGER.Entity
 {
     public class Sales
     {
+        [JsonIgnore]
         public int PK_Sales { get; set; }
-        public int FK_Stock_IdItem { get; set; }
-        public int Quantity { get; set; }
+        [JsonIgnore]
         public decimal Price { get; set; }
+        [JsonIgnore]
         public decimal Discount { get; set; }
-        public int Type { get; set; }
+        public List<SalesDetails> SalesDetails { get; set; } = new List<SalesDetails>();
     }
 }

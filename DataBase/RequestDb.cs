@@ -87,42 +87,54 @@ namespace GOOD_HAMBURGER.DataBase
             }
         }
 
-        public void InsertOrder(int FK_Stock_IdItem, int Quantity)
+        public decimal InsertOrder(Sales sale)
         {
             try
             {
                 using (var db = new AppDb())
                 {
                     db.Database.OpenConnection();
-                    db.Stock.FromSql($"Exec InsertSales{FK_Stock_IdItem},{Quantity},{123} ").ToList();
+                    db.Sales.FromSql($"Exec InsertSales");
+                    foreach(var itens in sale.SalesDetails)
+                    {
+                        var products = db.SalesDetails.FromSql($"Exec InsertSalesDetails {itens.FK_Stock_IdItem} , {itens.Quantity}");
+                    }
                     db.Database.CloseConnection();
+                    return 1;
                 }
     ;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                return 0;
             }
         }
 
-        public void UpdateOrder(int idOrder)
+        public bool UpdateOrder(int idOrder, Sales orderUpdate)
         {
             try
             {
                 using (var db = new AppDb())
                 {
                     db.Database.OpenConnection();
-                    db.Stock.FromSql($"Exec UpdateOrder {idOrder}").ToList();
-                    db.Database.CloseConnection();                    
+                    foreach(var itens in orderUpdate.SalesDetails)
+                    {
+                        var products = db.Sales.FromSql($"Exec UpdateOrder {idOrder}, {itens.FK_Stock_IdItem},{itens.Quantity}");
+                    }   
+                    db.Stock.FromSql($"Exec UpdateOrder {idOrder}, {orderUpdate}");
+                    db.Database.CloseConnection();
+                    return true;
                 }
     ;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                return false;
             }
         }
-        public void DeleteOrder(int idOrder)
+        public bool DeleteOrder(int idOrder)
         {
             try
             {
@@ -131,12 +143,14 @@ namespace GOOD_HAMBURGER.DataBase
                     db.Database.OpenConnection();
                     db.Stock.FromSql($"Exec DeleteOrder {idOrder}").ToList();
                     db.Database.CloseConnection();
+                    return true;
                 }
     ;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                return false;
             }
         }
     }

@@ -8,6 +8,7 @@ namespace GOOD_HAMBURGER.DataBase
     {
         public DbSet<Stock> Stock { get; set; } = null!;
         public DbSet<Sales> Sales { get; set; } = null!;
+        public DbSet<SalesDetails> SalesDetails { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
@@ -19,7 +20,8 @@ namespace GOOD_HAMBURGER.DataBase
         {
             modelBuilder.Entity<Stock>().HasKey(modelBuilder => modelBuilder.PK_Stock);
             modelBuilder.Entity<Sales>().HasKey(modelBuilder => modelBuilder.PK_Sales);
-                        
+            modelBuilder.Entity<SalesDetails>().HasKey(modelBuilder => modelBuilder.PK_SalesDetails);
+
             base.OnModelCreating(modelBuilder);
         }
     }

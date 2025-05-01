@@ -1,6 +1,11 @@
 @GOOD_HAMBURGER_HostAddress = http://localhost:5152
 
 GET {{GOOD_HAMBURGER_HostAddress}}/weatherforecast/
-Accept: application/json
+Accept: application/json 
 
 ###
+POST {{GOOD_HAMBURGER_HostAddress}}/insertorder/
+Accept: application/json 
+
+PUT {{GOOD_HAMBURGER_HostAddress}}/updateorder/ 
+Accept: application/json 
