@@ -21,7 +21,8 @@ namespace GOOD_HAMBURGER.DataBase
             modelBuilder.Entity<Stock>().HasKey(modelBuilder => modelBuilder.PK_Stock);
             modelBuilder.Entity<Sales>().HasKey(modelBuilder => modelBuilder.PK_Sales);
             modelBuilder.Entity<SalesDetails>().HasKey(modelBuilder => modelBuilder.PK_SalesDetails);
-
+            modelBuilder.Entity<SaleTypeDTO>().HasNoKey();
+            modelBuilder.Entity<SalePKDTO>().HasNoKey();
             base.OnModelCreating(modelBuilder);
         }
     }
